@@ -9,12 +9,12 @@ def count_long_subarray(A):
     max_subarray_size = 0
 
     for a in A:
-        print(a)
+        print("a =", a)
 
         if a > prev_a:  # while increasing
             # keep track of length of increasing-subarray
             current_subarray_size += 1
-            print("size =", current_subarray_size)
+            print("subarray_size =", current_subarray_size)
             prev_a = a
 
             if current_subarray_size > max_subarray_size:
@@ -35,7 +35,7 @@ def count_long_subarray(A):
         # if not inreasing anymore, end of subarray
         prev_a = a  # the update inside the first if-case won't be executed, so perform the update here
         current_subarray_size = 1  # 1 because current_subarray = [ prev_a ]
-        print("reset current_subarray_size=", 1)
+        print("reset current_subarray_size =", 1)
 
     print("COUNT =", count)
     return count

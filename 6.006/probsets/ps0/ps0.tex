@@ -171,12 +171,73 @@
                                 &= \biggl[\frac{(n+1)((n+1) + 1)}{2}\biggr]^{2}
     \end{align}
 
-$\hfill \blacksquare$
+\null\hfill $\blacksquare$
 
 
 
 \newpage
-\problem  % Problem 5
+% Problem 5
+\problem Prove \textbf{by induction}  that every connected undirected graph $G=(V,E)$
+for which $|E|=|V|-1$ is acyclic. \\
+\\
+\textit{Recall:}
+    \begin{itemize}
+        \item \ A graph is connected if each pair of vertices has at least one
+            connecting edge.
+        \item \ An undirected graph simply means that all edges has no direction
+            component.
+        \item \ An acyclic graph is a graph that contains no cycles. When
+            traversing the graph from vertex to vertex, no same vertex shall be
+            visited twice.
+        \item \ $|E|=|V|-1$ means that there is one less edge as there are
+            vertices.
+    \end{itemize}
+
+\textit{Proof.} Using induction on the number of vertices, $n=|V|$, in a graph
+  $G=(V,E)$. Define $P(n)$ as: "Given that G is a connected undirected graph, 
+  if $|E|=|V|-1$, then $G$ is acyclic." \\
+  \\
+  Base case, $P(1)$: $|V|=1$, hence $|E|=0$. A graph with only one vertex can't
+  create a cycle since a cycle requires a nonempty seqyence of edges. Thus the
+  base case holds.\\
+  \\
+  For the induction step, we consider a "shrink-down, build-up" approach: 
+      \footnote{This is to avoid the "Build-up Error," where one assumes
+      that \underline{every size n+1 graph with some property} can be built-up 
+      from \underline{a size n graph with the same property.} This assumption is 
+      not true by default. Note that the property in question is that of 
+      the antecedent, which is necessary to assume $P(n)$.}
+  Consider an (n+1) vertex graph $G'$ that is connected, undirected, and has
+  $|V|=n+1$, and $|E|=n$. We know that any connected graph has a spanning tree,
+  and a leaf of that spanning tree can be removed such that we are left with a
+  graph $G$ that is still connected, undirected, and has $|V|=n$, and $|E|=n-1$.
+  If we assume $P(n)$, then $G$ is acyclic. Now we see if we can get $G'$ from
+  $G$ by adding a vertex.\\
+  \\
+  \textbf{Case 1:} Connecting the vertex $v_{n+1}$ to an edge in $G$. This is
+  not possible since all edges in G are already connected to 2 vertices (since
+  it is a connected graph with one less edge than vertices).\\
+  \\
+  \textbf{Case 2:} Connecting the edge $e_n$ to two vertices already in G. This
+  is not possible since if $e_n=\{v_{n-1}, v_n\}$, then by case 1, there won't
+  be any edge for $v_{n+1}$ and it won't be a part of the connected graph G.\\
+  \\
+  \textbf{Case 3:} Connecting the new vertex and edge together with a vertex in
+  G. That is, $e_n = \{v_n, v_{n+1}\}$. Since G is said to be acyclic, we know
+  that $v_n$ doesn't belong to any prior cycle. For $v_n$ and $v_{n+1}$ to
+  create a new cycle, there should be a path from $v_n$ to $v_{n+1}$ and back
+  to $v_n$. Since $v_{n+1}$ is only connected to $e_{n}$, then there is no path
+  from $v_{n+1}$ back to $v_{n}$ without repeating the edge. Therefore, the two
+  vertices don't create a new cycle.\\
+  \\
+  By considering the three cases, we see that $G$ remains ayclic.\\
+  \null\hfill $\blacksquare$
+
+
+
+  
+
+
 
 \vfill
 \problem  % Problem 6
@@ -189,9 +250,40 @@ def count_long_subarray(A):
     Output: count | number of longest increasing subarrays of A
     '''
     count = 0
-    ##################
-    # YOUR CODE HERE #
-    ##################
+    prev_a = 0
+    current_subarray_size = 0
+    max_subarray_size = 0
+
+    for a in A:
+        print("a =", a)
+
+        if a > prev_a:  # while increasing
+            # keep track of length of increasing-subarray
+            current_subarray_size += 1
+            print("subarray_size =", current_subarray_size)
+            prev_a = a
+
+            if current_subarray_size > max_subarray_size:
+                max_subarray_size = current_subarray_size
+                count = 1
+                print(
+                    "update max_subarray_size =",
+                    max_subarray_size,
+                    "reset count =",
+                    count,
+                )
+            elif current_subarray_size == max_subarray_size:
+                count += 1
+                print("increment count =", count)
+
+            continue
+
+        # if not inreasing anymore, end of subarray
+        prev_a = a  # the update in the 1st if-case won't be executed, update here
+        current_subarray_size = 1  # 1 because current_subarray = [ prev_a ]
+        print("reset current_subarray_size =", 1)
+
+    print("COUNT =", count)
     return count
 \end{lstlisting}
 
